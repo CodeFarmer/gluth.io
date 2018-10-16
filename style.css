@@ -1,0 +1,10 @@
+body {
+    font-family: "Helvetica";
+    color: palegoldenrod;
+    background: black;
+}
+
+a {
+    color: palegoldenrod;
+    text-decoration: underline
+}
