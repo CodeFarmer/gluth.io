@@ -56,9 +56,9 @@ resource "aws_s3_bucket" "static_site" {
 resource "aws_s3_bucket_object" "index" {
   bucket = "gluth.io"
   key    = "index.html"
-  source = "../../public/index.html"
+  source = "public/index.html"
   content_type = "text/html"
-  etag   = "${md5(file("../../public/index.html"))}"
+  etag   = "${md5(file("public/index.html"))}"
   // apparently this is necessary.
   depends_on = ["aws_s3_bucket.static_site"]
 }
@@ -66,9 +66,9 @@ resource "aws_s3_bucket_object" "index" {
 resource "aws_s3_bucket_object" "style" {
   bucket = "gluth.io"
   key    = "style.css"
-  source = "../../public/style.css"
+  source = "public/style.css"
   content_type = "text/css"
-  etag   = "${md5(file("../../public/style.css"))}"
+  etag   = "${md5(file("public/style.css"))}"
   depends_on = ["aws_s3_bucket.static_site"]
 }
 
