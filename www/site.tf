@@ -29,7 +29,7 @@ resource "aws_route53_record" "www" {
   zone_id = "${data.aws_route53_zone.gluth_io.zone_id}"
 
   type    = "A"
-  name    = "www.${data.aws_route53_zone.gluth_io.zone_id}"
+  name    = "www.${data.aws_route53_zone.gluth_io.name}"
 
 
   alias {
