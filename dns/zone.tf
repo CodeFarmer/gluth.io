@@ -15,7 +15,7 @@ resource "aws_route53_zone" "gluth_io" {
 
 resource "aws_route53_record" "mx" {
   zone_id = "${aws_route53_zone.gluth_io.zone_id}"
-  name    = "mx"
+  name    = "gluth.io"
   type    = "MX"
   ttl     = "300"
   records = [ "10 mx.hover.com.cust.hostedemail.com" ]
