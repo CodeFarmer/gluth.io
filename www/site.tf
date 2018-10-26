@@ -3,7 +3,8 @@ provider "aws" {
 }
 
 locals {
-  certificate_arn = "arn:aws:acm:us-east-1:040789721567:certificate/37e53493-3636-4b93-908b-e25f6ab1c011"
+  // certificate_arn = "arn:aws:acm:us-east-1:040789721567:certificate/37e53493-3636-4b93-908b-e25f6ab1c011"
+  certificate_arn = "arn:aws:acm:us-east-1:040789721567:certificate/03ffb111-1ff9-480c-8200-86f881d3da67"
 }
 
 // DNS
@@ -12,7 +13,6 @@ data "aws_route53_zone" "gluth_io" {
   name         = "gluth.io."
 }
 
-/*
 resource "aws_route53_record" "default" {
 
   zone_id = "${data.aws_route53_zone.gluth_io.zone_id}"
@@ -22,14 +22,13 @@ resource "aws_route53_record" "default" {
   depends_on = [ "aws_route53_record.www" ]
 
   alias {
-    // Apparently this doesn't work because you can't alias to a CNAME?
-    name                   = "${aws_route53_record.www.name}"
-    zone_id                = "${data.aws_route53_zone.gluth_io.zone_id}"
+    name                   = "${aws_cloudfront_distribution.website.domain_name}"
+    zone_id                = "${aws_cloudfront_distribution.website.hosted_zone_id}"
     evaluate_target_health = true
   }
 
 }
-*/
+
 
 resource "aws_route53_record" "www" {
 
