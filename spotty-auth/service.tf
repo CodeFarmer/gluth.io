@@ -72,7 +72,7 @@ resource "aws_elastic_beanstalk_environment" "spotty-auth" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "InstanceType"
-    value     = "t3.micro" # t3 instances need a VPC
+    value     = "t3.nano" # t3 instances need a VPC
   }
 
   setting {
