@@ -1,10 +1,17 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
+}
+
 provider "aws" {
   region     = "eu-west-2"
 }
 
 locals {
-  // certificate_arn = "arn:aws:acm:us-east-1:040789721567:certificate/37e53493-3636-4b93-908b-e25f6ab1c011"
-  certificate_arn = "arn:aws:acm:us-east-1:040789721567:certificate/03ffb111-1ff9-480c-8200-86f881d3da67"
+  certificate_arn = "arn:aws:acm:us-east-1:040789721567:certificate/4c3c97aa-1d64-4f5d-bc51-97dbc61019b2"
 }
 
 // DNS
@@ -19,7 +26,7 @@ resource "aws_route53_record" "default" {
 
   type    = "A"
   name    = "${data.aws_route53_zone.gluth_io.name}"
-  depends_on = [ "aws_route53_record.www" ]
+  depends_on = [ aws_route53_record.www ]
 
   alias {
     name                   = "${aws_cloudfront_distribution.website.domain_name}"
@@ -57,7 +64,7 @@ resource "aws_s3_bucket_object" "index" {
   content_type = "text/html"
   etag   = "${md5(file("public/index.html"))}"
   // apparently this is necessary.
-  depends_on = ["aws_s3_bucket.static_site"]
+  depends_on = [ aws_s3_bucket.static_site ]
 }
 
 resource "aws_s3_bucket_object" "style" {
@@ -66,7 +73,7 @@ resource "aws_s3_bucket_object" "style" {
   source = "public/style.css"
   content_type = "text/css"
   etag   = "${md5(file("public/style.css"))}"
-  depends_on = ["aws_s3_bucket.static_site"]
+  depends_on = [ aws_s3_bucket.static_site ]
 }
 
 
@@ -87,11 +94,10 @@ resource "aws_cloudfront_distribution" "website" {
 
   default_root_object = "index.html"
 
-  default_cache_behavior = {
+  default_cache_behavior {
     
     allowed_methods = ["GET", "HEAD", "OPTIONS"]
     cached_methods = ["GET", "HEAD"]
-    forwarded_values = []
 
     viewer_protocol_policy = "redirect-to-https"
 
